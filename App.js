@@ -1,68 +1,34 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-import React from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import * as React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import HomeScreen from './src/components/HomeScreen';
+import PeopleList from './src/components/PeopleList';
+import PeopleDetails from './src/components/PeopleDetails';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 22,
-  },
-  title: {
-    margin: 30,
-    fontWeight: 'bold',
-    fontSize: 30,
-    textAlign: 'center',
-  },
-  description: {
-    fontWeight: 'bold',
-    color: 'gray',
-    fontSize: 20,
-    textAlign: 'center',
-  },
-  listContainer: {
-    margin: 50,
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-    textAlign: 'center',
-  },
-});
+const Stack = createNativeStackNavigator();
 
-const App: () => Node = () => {
+function PeopleNavigator() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>App by Tung</Text>
-      <Text style={styles.description}>Created by Tung Nguyen</Text>
-      <Text style={styles.description}>Copyright © 2022</Text>
-      <FlatList
-        style={styles.listContainer}
-        data={[
-          {key: 'Devin'},
-          {key: 'Dan'},
-          {key: 'Dominic'},
-          {key: 'Jackson'},
-          {key: 'James'},
-          {key: 'Joel'},
-          {key: 'John'},
-          {key: 'Jillian'},
-          {key: 'Jimmy'},
-          {key: 'Julie'},
-        ]}
-        renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
-        ListHeaderComponent={() => (
-          <Text style={styles.description}>List of App's sponsors</Text>
-        )}
-      />
-    </View>
+    <Stack.Navigator initialRouteName="People List">
+      <Stack.Screen name="People List" component={PeopleList} />
+      <Stack.Screen name="People Details" component={PeopleDetails} />
+    </Stack.Navigator>
   );
-};
+}
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+          name="People Navigator"
+          component={PeopleNavigator}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 export default App;
